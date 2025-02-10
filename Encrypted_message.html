@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Love Message</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #ffe6e6; padding: 20px; }
+        #message { display: none; font-size: 20px; color: #d63333; margin-top: 20px; font-weight: bold; }
+        button, input { padding: 10px; font-size: 18px; margin-top: 10px; }
+        button { background-color: #ff4d4d; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #cc0000; }
+    </style>
+</head>
+<body>
+    <h1>Decrypt the Hidden Love Message</h1>
+    <p>Enter your name to unlock the message:</p>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="submitName()">Unlock</button>
+    <p id="message">🔒 <b>Encrypted Message:</b> Uifsf't op qmbdf J xpvme sbuifs cf uibo xjui zpv! ❤️</p>
+
+    <script>
+        function decryptMessage(encryptedText) {
+            return encryptedText.replace(/[A-Za-z]/g, function(c) {
+                return String.fromCharCode(c.charCodeAt(0) - 1);
+            });
+        }
+
+        function submitName() {
+            var name = document.getElementById("nameInput").value;
+            if (name.trim() === "") {
+                alert("Please enter your name!");
+                return;
+            }
+            fetch("https://script.google.com/macros/s/1g_KdVW3cYLlD4SBqC8qfzXTHNkka1zCZVZ-t7F-SNizecOuU2WeDj3pr/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name })
+            }).then(response => response.text())
+              .then(data => {
+                if (data === "Success") {
+                    document.getElementById("message").innerText = "💖 Decrypted Message: There's no place I would rather be than with you! ❤️";
+                    document.getElementById("message").style.display = "block";
+                } else {
+                    alert("Error saving name.");
+                }
+              });
+        }
+    </script>
+</body>
+</html>
