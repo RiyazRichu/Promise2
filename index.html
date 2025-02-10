@@ -18,7 +18,7 @@
     <input type="text" id="nameInput" placeholder="Enter your name">
     <button onclick="submitName()">Unlock</button>
     <p id="message">🔒 <b>Encrypted Message:</b> Uifsf't op qmbdf J xpvme sbuifs cf uibo xjui zpv! ❤️</p>
-
+    
     <script>
         function decryptMessage(encryptedText) {
             return encryptedText.replace(/[A-Za-z]/g, function(c) {
@@ -32,19 +32,26 @@
                 alert("Please enter your name!");
                 return;
             }
+
             fetch("https://script.google.com/macros/s/1g_KdVW3cYLlD4SBqC8qfzXTHNkka1zCZVZ-t7F-SNizecOuU2WeDj3pr/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: name })
-            }).then(response => response.text())
-              .then(data => {
-                if (data === "Success") {
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Server Response:", data); // Debugging
+                if (data.includes("Success")) {
                     document.getElementById("message").innerText = "💖 Decrypted Message: There's no place I would rather be than with you! ❤️";
                     document.getElementById("message").style.display = "block";
                 } else {
-                    alert("Error saving name.");
+                    alert("Error saving name. Check Google Apps Script logs.");
                 }
-              });
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+                alert("Failed to connect to the server. Check console for details.");
+            });
         }
     </script>
 </body>
